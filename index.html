@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GROSSMEISTER — Шахматный клуб в Москве</title>
+    <title>GROSSMEISTER HOUSE — Шахматы & Инвестиции</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -12,9 +12,9 @@
     <style>
         :root {
             --black: #0c0c0c;
-            --black-light: #141414;
-            --gray-900: #222;
-            --gray-700: #555;
+            --black-light: #111;
+            --gray-900: #1a1a1a;
+            --gray-700: #444;
             --gray-500: #777;
             --gray-400: #999;
             --gray-300: #aaa;
@@ -26,7 +26,6 @@
             --sans: 'Inter', -apple-system, sans-serif;
             --display: 'Space Grotesk', sans-serif;
         }
-
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { overflow-x: hidden; scroll-behavior: smooth; }
         body {
@@ -39,780 +38,456 @@
 
         /* ==================== LOADER ==================== */
         .loader {
-            position: fixed;
-            inset: 0;
-            z-index: 99999;
+            position: fixed; inset: 0; z-index: 99999;
             background: var(--black);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 2rem;
+            display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1.8rem;
         }
         .loader-text {
             font-family: var(--display);
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
-            letter-spacing: 0.3em;
-            color: var(--cream);
-            overflow: hidden;
+            font-size: clamp(1.6rem, 4.5vw, 3rem);
+            font-weight: 700; letter-spacing: 0.3em;
+            color: var(--cream); overflow: hidden;
         }
         .loader-text span { display: inline-block; }
         .loader-line { width: 0; height: 1px; background: var(--gold); }
-        .loader-counter {
-            font-family: var(--display);
-            font-size: 0.8rem;
-            letter-spacing: 0.2em;
-            color: var(--gray-500);
+        .loader-sub {
+            font-family: var(--serif); font-style: italic;
+            font-size: 0.9rem; color: var(--gray-500);
+            overflow: hidden;
         }
+        .loader-sub span { display: inline-block; }
 
-        /* ==================== CURSOR (desktop only) ==================== */
+        /* ==================== CURSOR ==================== */
         .cursor {
-            position: fixed;
-            width: 16px;
-            height: 16px;
-            border: 1.5px solid rgba(240,236,228,0.6);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99998;
-            transform: translate(-50%, -50%);
+            position: fixed; width: 16px; height: 16px;
+            border: 1.5px solid rgba(240,236,228,0.5);
+            border-radius: 50%; pointer-events: none; z-index: 99998;
             transition: width 0.25s, height 0.25s, border-color 0.25s, background 0.25s;
             will-change: transform;
         }
-        .cursor.hover {
-            width: 56px;
-            height: 56px;
-            border-color: var(--gold);
-            background: rgba(196,162,101,0.08);
-        }
+        .cursor.hover { width: 56px; height: 56px; border-color: var(--gold); background: rgba(196,162,101,0.07); }
         @media (hover: none), (pointer: coarse) { .cursor { display: none !important; } }
 
         /* ==================== NOISE ==================== */
         .noise {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            pointer-events: none;
-            opacity: 0.03;
+            position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0.028;
             background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
             background-size: 200px 200px;
         }
 
         /* ==================== NAV ==================== */
         .nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            padding: 1.8rem 3.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 1.6rem 3.5rem;
+            display: flex; justify-content: space-between; align-items: center;
             transition: background 0.4s, padding 0.4s;
         }
         .nav.scrolled {
-            padding: 1rem 3.5rem;
-            background: rgba(12,12,12,0.9);
-            -webkit-backdrop-filter: blur(12px);
-            backdrop-filter: blur(12px);
+            padding: 0.9rem 3.5rem;
+            background: rgba(12,12,12,0.92);
+            -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(240,236,228,0.04);
         }
         .nav-logo {
-            font-family: var(--display);
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 0.4em;
-            color: var(--white);
-            text-decoration: none;
+            font-family: var(--display); font-size: 0.8rem; font-weight: 700;
+            letter-spacing: 0.35em; color: var(--white); text-decoration: none;
         }
-        .nav-links {
-            display: flex;
-            gap: 3rem;
-            list-style: none;
-        }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
         .nav-links a {
-            color: var(--white);
-            text-decoration: none;
-            font-size: 0.72rem;
-            font-weight: 500;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            opacity: 0.6;
-            transition: opacity 0.3s;
+            color: var(--white); text-decoration: none; font-size: 0.7rem; font-weight: 500;
+            letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.55; transition: opacity 0.3s;
         }
         .nav-links a:hover { opacity: 1; }
         .nav-cta {
-            font-size: 0.72rem;
-            font-weight: 500;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            padding: 0.65rem 1.6rem;
-            border: 1px solid rgba(255,255,255,0.25);
-            color: var(--white);
-            text-decoration: none;
-            transition: all 0.3s;
+            font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+            padding: 0.6rem 1.5rem; border: 1px solid rgba(255,255,255,0.2);
+            color: var(--white); text-decoration: none; transition: all 0.3s;
         }
         .nav-cta:hover { background: var(--white); color: var(--black); }
 
         /* ==================== HERO ==================== */
         .hero {
-            position: relative;
-            height: 100vh;
-            min-height: 700px;
-            display: flex;
-            align-items: flex-end;
-            padding: 0 3.5rem 4.5rem;
-            overflow: hidden;
+            position: relative; height: 100vh; min-height: 700px;
+            display: flex; align-items: flex-end; padding: 0 3.5rem 4.5rem; overflow: hidden;
         }
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-        }
+        .hero-bg { position: absolute; inset: 0; }
         .hero-bg-image {
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             background: url('https://images.unsplash.com/photo-1586165368502-1bad197a6461?w=1920&q=80&auto=format') center/cover no-repeat;
             will-change: transform;
         }
         .hero-bg-gradient {
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             background:
-                linear-gradient(to bottom, rgba(12,12,12,0.3) 0%, transparent 35%, rgba(12,12,12,0.95) 100%),
+                linear-gradient(to bottom, rgba(12,12,12,0.35) 0%, transparent 35%, rgba(12,12,12,0.96) 100%),
                 linear-gradient(to right, rgba(12,12,12,0.5) 0%, transparent 60%);
         }
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
+        .hero-content { position: relative; z-index: 2; width: 100%; display: flex; justify-content: space-between; align-items: flex-end; }
         .hero-left { max-width: 75%; }
         .hero-eyebrow {
-            font-size: 0.7rem;
-            font-weight: 500;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            overflow: hidden;
+            font-size: 0.68rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 1.5rem;
+            display: flex; align-items: center; gap: 1rem; overflow: hidden;
         }
-        .hero-eyebrow-line {
-            display: inline-block;
-            width: 40px;
-            height: 1px;
-            background: var(--gold);
-        }
+        .hero-eyebrow-line { display: inline-block; width: 36px; height: 1px; background: var(--gold); }
         .hero-title {
-            font-family: var(--serif);
-            font-size: clamp(3.5rem, 9vw, 8.5rem);
-            font-weight: 400;
-            line-height: 0.92;
-            letter-spacing: -0.02em;
-            color: var(--white);
-            margin-bottom: 1.5rem;
+            font-family: var(--serif); font-size: clamp(3.2rem, 8.5vw, 8rem);
+            font-weight: 400; line-height: 0.93; letter-spacing: -0.02em;
+            color: var(--white); margin-bottom: 1.5rem;
         }
-        .hero-title-line {
-            display: block;
-            overflow: hidden;
-        }
+        .hero-title-line { display: block; overflow: hidden; }
         .hero-title-line span { display: inline-block; }
         .hero-title em { font-style: italic; color: var(--gold-light); }
         .hero-desc {
-            font-size: 1rem;
-            font-weight: 300;
-            color: var(--gray-300);
-            max-width: 520px;
-            line-height: 1.75;
+            font-size: 0.95rem; font-weight: 300; color: var(--gray-300);
+            max-width: 520px; line-height: 1.75;
         }
         .hero-desc span { display: inline-block; }
         .hero-right { text-align: right; padding-bottom: 0.5rem; }
         .hero-scroll {
-            writing-mode: vertical-rl;
-            font-size: 0.6rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--gray-400);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+            writing-mode: vertical-rl; font-size: 0.58rem; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--gray-400);
+            display: flex; align-items: center; gap: 1rem;
         }
         .hero-scroll-line {
-            width: 1px;
-            height: 50px;
+            width: 1px; height: 48px;
             background: linear-gradient(to bottom, var(--gold), transparent);
             animation: scrollPulse 2s ease-in-out infinite;
         }
-        @keyframes scrollPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
+        @keyframes scrollPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
         /* ==================== MARQUEE ==================== */
         .marquee {
-            padding: 1.4rem 0;
-            border-top: 1px solid rgba(240,236,228,0.05);
-            border-bottom: 1px solid rgba(240,236,228,0.05);
+            padding: 1.3rem 0;
+            border-top: 1px solid rgba(240,236,228,0.04);
+            border-bottom: 1px solid rgba(240,236,228,0.04);
             overflow: hidden;
         }
-        .marquee-inner {
-            display: flex;
-            width: max-content;
-            animation: marqueeScroll 45s linear infinite;
-        }
+        .marquee-inner { display: flex; width: max-content; animation: marqueeScroll 50s linear infinite; }
         .marquee-item {
-            flex-shrink: 0;
-            font-family: var(--serif);
-            font-size: 0.95rem;
-            font-style: italic;
-            color: var(--gray-500);
-            padding: 0 2.5rem;
-            display: flex;
-            align-items: center;
-            gap: 2.5rem;
-            white-space: nowrap;
+            flex-shrink: 0; font-family: var(--serif); font-size: 0.9rem; font-style: italic;
+            color: var(--gray-500); padding: 0 2.2rem;
+            display: flex; align-items: center; gap: 2.2rem; white-space: nowrap;
         }
-        .marquee-diamond {
-            width: 4px; height: 4px;
-            background: var(--gold);
-            transform: rotate(45deg);
-            opacity: 0.5;
-        }
-        @keyframes marqueeScroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+        .marquee-diamond { width: 4px; height: 4px; background: var(--gold); transform: rotate(45deg); opacity: 0.45; }
+        @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* ==================== SHARED ==================== */
-        .section-num {
-            font-family: var(--display);
-            font-size: 0.7rem;
-            letter-spacing: 0.2em;
-            color: var(--gold);
-            margin-bottom: 1.5rem;
-        }
+        .section-num { font-family: var(--display); font-size: 0.68rem; letter-spacing: 0.2em; color: var(--gold); margin-bottom: 1.5rem; }
         .btn-arrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.1rem 2.8rem;
-            font-family: var(--sans);
-            font-size: 0.78rem;
-            font-weight: 500;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            text-decoration: none;
-            color: var(--black);
-            background: var(--gold);
+            display: inline-flex; align-items: center; gap: 1rem;
+            padding: 1.05rem 2.6rem; font-family: var(--sans); font-size: 0.75rem;
+            font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+            text-decoration: none; color: var(--black); background: var(--gold);
             transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
         }
-        .btn-arrow:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-            box-shadow: 0 16px 40px rgba(196,162,101,0.2);
-        }
-        .btn-arrow svg { width: 16px; height: 16px; }
+        .btn-arrow:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 14px 36px rgba(196,162,101,0.18); }
+        .btn-arrow svg { width: 15px; height: 15px; }
+        .arrow-svg { viewBox: "0 0 16 16"; }
         .btn-outline2 {
-            display: inline-block;
-            padding: 1rem 2.4rem;
-            font-family: var(--sans);
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            text-decoration: none;
-            color: var(--cream);
-            border: 1px solid rgba(240,236,228,0.15);
-            transition: all 0.3s;
+            display: inline-block; padding: 0.95rem 2.2rem;
+            font-family: var(--sans); font-size: 0.72rem; font-weight: 500;
+            letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+            color: var(--cream); border: 1px solid rgba(240,236,228,0.14); transition: all 0.3s;
         }
         .btn-outline2:hover { background: var(--cream); color: var(--black); border-color: var(--cream); }
 
-        /* ==================== INTRO ==================== */
-        .intro {
+        /* ==================== PHILOSOPHY ==================== */
+        .philosophy {
             padding: 12rem 3.5rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6rem;
-            align-items: center;
-            max-width: 1440px;
-            margin: 0 auto;
+            max-width: 1440px; margin: 0 auto;
         }
-        .intro-title {
-            font-family: var(--serif);
-            font-size: clamp(2.4rem, 4.2vw, 3.8rem);
-            font-weight: 400;
-            line-height: 1.12;
-            color: var(--cream);
-            margin-bottom: 2rem;
+        .philosophy-header {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start;
         }
-        .intro-title em { font-style: italic; color: var(--gold-light); }
-        .intro-text {
-            font-size: 0.95rem;
-            font-weight: 300;
-            color: var(--gray-400);
-            line-height: 1.9;
-            max-width: 480px;
+        .philosophy-title {
+            font-family: var(--serif); font-size: clamp(2.4rem, 4vw, 3.6rem);
+            font-weight: 400; line-height: 1.12; color: var(--cream);
         }
-        .intro-stats {
-            display: flex;
-            gap: 3rem;
-            margin-top: 3rem;
-            padding-top: 2.5rem;
-            border-top: 1px solid rgba(240,236,228,0.08);
+        .philosophy-title em { font-style: italic; color: var(--gold-light); }
+        .philosophy-text {
+            font-size: 0.95rem; font-weight: 300; color: var(--gray-400); line-height: 1.9;
         }
-        .intro-stat-num {
-            font-family: var(--display);
-            font-size: 2.6rem;
-            font-weight: 600;
-            color: var(--cream);
-            line-height: 1;
+        .philosophy-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 5rem;
         }
-        .intro-stat-label {
-            font-size: 0.75rem;
-            color: var(--gray-500);
-            margin-top: 0.4rem;
+        .phil-card {
+            padding: 2.5rem 2rem; border: 1px solid rgba(240,236,228,0.05);
+            transition: border-color 0.4s, transform 0.4s; position: relative; overflow: hidden;
         }
-        .intro-image {
-            width: 100%;
-            aspect-ratio: 4/5;
-            overflow: hidden;
-            position: relative;
+        .phil-card:hover { border-color: rgba(196,162,101,0.2); transform: translateY(-3px); }
+        .phil-card-icon {
+            font-family: var(--serif); font-size: 2.5rem; color: var(--gold); line-height: 1;
+            margin-bottom: 1.2rem; opacity: 0.7;
         }
-        .intro-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .phil-card-title {
+            font-family: var(--serif); font-size: 1.3rem; color: var(--cream); margin-bottom: 0.6rem;
         }
-        .intro-image-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, transparent 60%, var(--black));
-        }
-        .intro-image-tag {
-            position: absolute;
-            bottom: 2rem;
-            left: 2rem;
-            font-family: var(--serif);
-            font-style: italic;
-            font-size: 0.9rem;
-            color: var(--gold-light);
-        }
+        .phil-card-text { font-size: 0.82rem; font-weight: 300; color: var(--gray-500); line-height: 1.7; }
 
-        /* ==================== SHOWCASE ==================== */
-        .showcase {
-            padding: 8rem 3.5rem;
-            max-width: 1440px;
-            margin: 0 auto;
+        /* ==================== FAQ INLINE ==================== */
+        .faq-strip {
+            padding: 4rem 3.5rem;
+            border-top: 1px solid rgba(240,236,228,0.04);
+            border-bottom: 1px solid rgba(240,236,228,0.04);
+            max-width: 1440px; margin: 0 auto;
+            display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap;
         }
-        .showcase-title {
-            font-family: var(--serif);
-            font-size: clamp(2.2rem, 4vw, 3.5rem);
-            font-weight: 400;
-            line-height: 1.12;
-            color: var(--cream);
-            margin-bottom: 4rem;
+        .faq-item {
+            display: flex; gap: 1.2rem; align-items: baseline; max-width: 320px;
         }
-        .showcase-title em { font-style: italic; color: var(--gold-light); }
-        .showcase-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-        .showcase-card {
-            position: relative;
-            overflow: hidden;
-        }
-        .showcase-card-img {
-            width: 100%;
-            aspect-ratio: 3/4;
-            overflow: hidden;
-        }
-        .showcase-card-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .showcase-card:hover .showcase-card-img img { transform: scale(1.05); }
-        .showcase-card-content { padding: 1.4rem 0; }
-        .showcase-card-num {
-            font-family: var(--display);
-            font-size: 0.65rem;
-            color: var(--gold);
-            letter-spacing: 0.15em;
-            margin-bottom: 0.4rem;
-        }
-        .showcase-card-title {
-            font-family: var(--serif);
-            font-size: 1.4rem;
-            color: var(--cream);
-            margin-bottom: 0.35rem;
-        }
-        .showcase-card-desc {
-            font-size: 0.82rem;
-            font-weight: 300;
-            color: var(--gray-500);
-            line-height: 1.65;
-        }
+        .faq-q { font-family: var(--serif); font-style: italic; font-size: 0.95rem; color: var(--cream); white-space: nowrap; }
+        .faq-a { font-size: 0.82rem; font-weight: 300; color: var(--gray-500); line-height: 1.6; }
 
-        /* ==================== SPLIT ==================== */
-        .split {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            min-height: 100vh;
+        /* ==================== SCHEDULE ==================== */
+        .schedule {
+            padding: 10rem 3.5rem;
+            max-width: 1440px; margin: 0 auto;
         }
-        .split-image {
-            position: relative;
-            overflow: hidden;
+        .schedule-title {
+            font-family: var(--serif); font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+            font-weight: 400; color: var(--cream); margin-bottom: 4rem;
         }
-        .split-image img {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .schedule-title em { font-style: italic; color: var(--gold-light); }
+        .schedule-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 5rem; }
+        .schedule-day { display: flex; flex-direction: column; gap: 0; }
+        .schedule-block {
+            display: grid; grid-template-columns: 100px 1fr; gap: 1.5rem;
+            padding: 1.4rem 0;
+            border-bottom: 1px solid rgba(240,236,228,0.05);
         }
-        .split-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 5rem 5rem;
-            background: var(--black-light);
+        .schedule-time {
+            font-family: var(--display); font-size: 0.8rem; font-weight: 500;
+            color: var(--gold); letter-spacing: 0.05em; padding-top: 0.15rem;
         }
-        .split-label {
-            font-size: 0.7rem;
-            font-weight: 500;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 2rem;
-        }
-        .split-title {
-            font-family: var(--serif);
-            font-size: clamp(2rem, 3.2vw, 3rem);
-            font-weight: 400;
-            line-height: 1.15;
-            color: var(--cream);
+        .schedule-info-title { font-family: var(--serif); font-size: 1.1rem; color: var(--cream); margin-bottom: 0.2rem; }
+        .schedule-info-desc { font-size: 0.8rem; font-weight: 300; color: var(--gray-500); line-height: 1.6; }
+        .schedule-side-card {
+            padding: 2.5rem; border: 1px solid rgba(240,236,228,0.06);
             margin-bottom: 1.5rem;
         }
-        .split-title em { font-style: italic; color: var(--gold-light); }
-        .split-text {
-            font-size: 0.95rem;
-            font-weight: 300;
-            color: var(--gray-400);
-            line-height: 1.9;
-            margin-bottom: 2rem;
+        .schedule-side-title {
+            font-family: var(--serif); font-size: 1.3rem; color: var(--cream); margin-bottom: 0.8rem;
         }
-        .split-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.9rem;
-            margin-bottom: 3rem;
-        }
-        .split-list li {
-            font-size: 0.9rem;
-            color: var(--gray-300);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            font-weight: 300;
-        }
-        .split-list li::before {
-            content: '';
-            width: 20px;
-            height: 1px;
-            background: var(--gold);
-            flex-shrink: 0;
+        .schedule-side-text { font-size: 0.85rem; font-weight: 300; color: var(--gray-500); line-height: 1.7; }
+        .schedule-side-badge {
+            display: inline-block; margin-top: 1rem; font-size: 0.65rem; font-weight: 600;
+            letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold);
+            border: 1px solid rgba(196,162,101,0.2); padding: 0.35rem 0.8rem;
         }
 
         /* ==================== BIG TEXT ==================== */
-        .big-text-section {
-            padding: 14rem 3.5rem;
-            text-align: center;
-            position: relative;
-        }
+        .big-text-section { padding: 12rem 3.5rem; text-align: center; }
         .big-text {
-            font-family: var(--serif);
-            font-size: clamp(2.8rem, 6.5vw, 6rem);
-            font-weight: 400;
-            line-height: 1.1;
-            color: var(--cream);
-            max-width: 1050px;
-            margin: 0 auto;
+            font-family: var(--serif); font-size: clamp(2.6rem, 6vw, 5.5rem);
+            font-weight: 400; line-height: 1.1; color: var(--cream);
+            max-width: 1000px; margin: 0 auto;
         }
         .big-text em { font-style: italic; color: var(--gold-light); }
-        .big-text-sub {
-            font-size: 0.95rem;
-            font-weight: 300;
-            color: var(--gray-500);
-            margin-top: 2.5rem;
-            line-height: 1.8;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
 
         /* ==================== PHOTO GRID ==================== */
         .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: 50vh 50vh;
-            gap: 4px;
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: 48vh 48vh; gap: 4px;
         }
-        .photo-grid-item {
-            overflow: hidden;
-            position: relative;
-        }
+        .photo-grid-item { overflow: hidden; position: relative; }
         .photo-grid-item:nth-child(1) { grid-row: span 2; }
         .photo-grid-item:nth-child(4) { grid-column: span 2; }
         .photo-grid-item img {
-            width: 100%; height: 100%;
-            object-fit: cover;
+            width: 100%; height: 100%; object-fit: cover;
             transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         .photo-grid-item:hover img { transform: scale(1.04); }
         .photo-grid-label {
-            position: absolute;
-            bottom: 1.5rem; left: 1.5rem;
-            font-family: var(--serif);
-            font-style: italic;
-            font-size: 0.95rem;
-            color: var(--cream);
-            opacity: 0;
-            transform: translateY(8px);
-            transition: all 0.4s;
+            position: absolute; bottom: 1.5rem; left: 1.5rem;
+            font-family: var(--serif); font-style: italic; font-size: 0.9rem;
+            color: var(--cream); opacity: 0; transform: translateY(8px); transition: all 0.4s;
         }
-        .photo-grid-item:hover .photo-grid-label {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .photo-grid-item:hover .photo-grid-label { opacity: 1; transform: translateY(0); }
 
-        /* ==================== PRICING ==================== */
-        .cards-section {
-            padding: 8rem 3.5rem;
-            max-width: 1440px;
-            margin: 0 auto;
+        /* ==================== FOOD ==================== */
+        .food {
+            display: grid; grid-template-columns: 1fr 1fr; min-height: 80vh;
         }
-        .cards-header {
-            margin-bottom: 4rem;
+        .food-image { position: relative; overflow: hidden; }
+        .food-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .food-content {
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 5rem; background: var(--black-light);
         }
-        .cards-title {
-            font-family: var(--serif);
-            font-size: clamp(2rem, 3.5vw, 3rem);
-            font-weight: 400;
-            color: var(--cream);
+        .food-label {
+            font-size: 0.68rem; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 2rem;
         }
-        .cards-title em { font-style: italic; color: var(--gold-light); }
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
+        .food-title {
+            font-family: var(--serif); font-size: clamp(2rem, 3vw, 2.8rem);
+            font-weight: 400; line-height: 1.15; color: var(--cream); margin-bottom: 1.5rem;
         }
-        .price-card {
-            padding: 3rem 2.5rem;
-            border: 1px solid rgba(240,236,228,0.06);
-            position: relative;
-            overflow: hidden;
-            transition: border-color 0.4s, transform 0.4s;
+        .food-title em { font-style: italic; color: var(--gold-light); }
+        .food-text { font-size: 0.92rem; font-weight: 300; color: var(--gray-400); line-height: 1.9; margin-bottom: 2rem; }
+        .food-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .food-col-title {
+            font-family: var(--display); font-size: 0.68rem; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem;
         }
-        .price-card:hover { border-color: rgba(196,162,101,0.2); transform: translateY(-4px); }
-        .price-card.featured {
-            border-color: rgba(196,162,101,0.2);
-            background: linear-gradient(165deg, rgba(196,162,101,0.06) 0%, transparent 50%);
+        .food-col-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+        .food-col-list li { font-size: 0.85rem; font-weight: 300; color: var(--gray-400); }
+
+        /* ==================== MEMBERSHIP ==================== */
+        .membership {
+            padding: 10rem 3.5rem;
+            max-width: 1440px; margin: 0 auto;
         }
-        .price-card-badge {
-            position: absolute;
-            top: 2rem; right: 2rem;
-            font-size: 0.6rem; font-weight: 600;
-            letter-spacing: 0.15em; text-transform: uppercase;
-            color: var(--black); background: var(--gold);
-            padding: 0.3rem 0.8rem;
+        .membership-title {
+            font-family: var(--serif); font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+            font-weight: 400; color: var(--cream); margin-bottom: 1rem;
         }
-        .price-card-tier {
-            font-family: var(--display);
-            font-size: 0.7rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 1rem;
+        .membership-title em { font-style: italic; color: var(--gold-light); }
+        .membership-sub { font-size: 0.92rem; font-weight: 300; color: var(--gray-500); line-height: 1.8; max-width: 550px; margin-bottom: 4rem; }
+        .membership-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+        .m-card {
+            padding: 3rem 2.5rem; border: 1px solid rgba(240,236,228,0.06);
+            transition: border-color 0.4s, transform 0.4s; position: relative;
         }
-        .price-card-name {
-            font-family: var(--serif);
-            font-size: 1.7rem;
-            color: var(--cream);
-            margin-bottom: 0.5rem;
+        .m-card:hover { border-color: rgba(196,162,101,0.2); transform: translateY(-3px); }
+        .m-card.featured { border-color: rgba(196,162,101,0.15); background: linear-gradient(165deg, rgba(196,162,101,0.05) 0%, transparent 50%); }
+        .m-card-badge {
+            position: absolute; top: 2rem; right: 2rem;
+            font-size: 0.58rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+            color: var(--black); background: var(--gold); padding: 0.25rem 0.7rem;
         }
-        .price-card-price {
-            font-family: var(--display);
-            font-size: 2.2rem;
-            font-weight: 600;
-            color: var(--cream);
-            margin-bottom: 0.2rem;
+        .m-card-tier {
+            font-family: var(--display); font-size: 0.68rem; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem;
         }
-        .price-card-period {
-            font-size: 0.8rem;
-            color: var(--gray-500);
-            margin-bottom: 2.5rem;
+        .m-card-name { font-family: var(--serif); font-size: 1.6rem; color: var(--cream); margin-bottom: 0.4rem; }
+        .m-card-price { font-family: var(--display); font-size: 2rem; font-weight: 600; color: var(--cream); }
+        .m-card-period { font-size: 0.78rem; color: var(--gray-500); margin-bottom: 2rem; }
+        .m-card-features { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 2.2rem; }
+        .m-card-features li {
+            font-size: 0.82rem; font-weight: 300; color: var(--gray-400);
+            padding-left: 1.5rem; position: relative;
         }
-        .price-card-features {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.7rem;
-            margin-bottom: 2.5rem;
+        .m-card-features li::before {
+            content: ''; position: absolute; left: 0; top: 0.55em;
+            width: 6px; height: 1px; background: var(--gold);
         }
-        .price-card-features li {
-            font-size: 0.85rem;
-            font-weight: 300;
-            color: var(--gray-400);
-            padding-left: 1.5rem;
-            position: relative;
+        .m-card-btn {
+            display: block; width: 100%; padding: 0.95rem; text-align: center;
+            font-family: var(--sans); font-size: 0.72rem; font-weight: 500;
+            letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+            color: var(--cream); border: 1px solid rgba(240,236,228,0.14); transition: all 0.3s;
         }
-        .price-card-features li::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 0.55em;
-            width: 6px; height: 1px;
-            background: var(--gold);
+        .m-card-btn:hover { background: var(--cream); color: var(--black); border-color: var(--cream); }
+        .m-card.featured .m-card-btn { background: var(--gold); color: var(--black); border-color: var(--gold); }
+        .m-card.featured .m-card-btn:hover { background: var(--gold-light); border-color: var(--gold-light); }
+        .membership-note {
+            margin-top: 2.5rem; font-size: 0.8rem; font-weight: 300; color: var(--gray-500); line-height: 1.7;
+            padding-top: 2rem; border-top: 1px solid rgba(240,236,228,0.05);
         }
-        .price-card-btn {
-            display: block;
-            width: 100%;
-            padding: 1rem;
-            text-align: center;
-            font-family: var(--sans);
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            text-decoration: none;
-            color: var(--cream);
-            border: 1px solid rgba(240,236,228,0.15);
-            transition: all 0.3s;
+        .membership-note strong { color: var(--gold); font-weight: 500; }
+
+        /* ==================== SPACES ==================== */
+        .spaces {
+            padding: 10rem 3.5rem;
+            max-width: 1440px; margin: 0 auto;
         }
-        .price-card-btn:hover { background: var(--cream); color: var(--black); border-color: var(--cream); }
-        .price-card.featured .price-card-btn { background: var(--gold); color: var(--black); border-color: var(--gold); }
-        .price-card.featured .price-card-btn:hover { background: var(--gold-light); border-color: var(--gold-light); }
+        .spaces-title {
+            font-family: var(--serif); font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+            font-weight: 400; color: var(--cream); margin-bottom: 4rem;
+        }
+        .spaces-title em { font-style: italic; color: var(--gold-light); }
+        .spaces-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .space-card { overflow: hidden; position: relative; }
+        .space-card-img { width: 100%; aspect-ratio: 16/10; overflow: hidden; }
+        .space-card-img img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .space-card:hover .space-card-img img { transform: scale(1.04); }
+        .space-card-content { padding: 1.5rem 0; }
+        .space-card-name { font-family: var(--serif); font-size: 1.4rem; color: var(--cream); margin-bottom: 0.3rem; }
+        .space-card-desc { font-size: 0.82rem; font-weight: 300; color: var(--gray-500); line-height: 1.6; }
+        .space-card-tag {
+            display: inline-block; margin-top: 0.8rem;
+            font-size: 0.6rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+            color: var(--gold); border: 1px solid rgba(196,162,101,0.2); padding: 0.3rem 0.7rem;
+        }
 
         /* ==================== CONTACT ==================== */
-        .contact {
-            padding: 14rem 3.5rem;
-            text-align: center;
-        }
+        .contact { padding: 14rem 3.5rem; text-align: center; }
         .contact-label {
-            font-size: 0.7rem; font-weight: 500;
-            letter-spacing: 0.25em; text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 2rem;
+            font-size: 0.68rem; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 2rem;
         }
         .contact-title {
-            font-family: var(--serif);
-            font-size: clamp(2.8rem, 5.5vw, 5rem);
-            font-weight: 400;
-            line-height: 1.08;
-            color: var(--cream);
-            margin-bottom: 1.5rem;
+            font-family: var(--serif); font-size: clamp(2.6rem, 5vw, 4.5rem);
+            font-weight: 400; line-height: 1.08; color: var(--cream); margin-bottom: 1.5rem;
         }
         .contact-title em { font-style: italic; color: var(--gold-light); }
         .contact-desc {
-            font-size: 1rem; font-weight: 300;
-            color: var(--gray-500);
-            max-width: 460px;
-            margin: 0 auto 3rem;
-            line-height: 1.8;
+            font-size: 0.95rem; font-weight: 300; color: var(--gray-500);
+            max-width: 440px; margin: 0 auto 3rem; line-height: 1.8;
         }
         .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 4rem;
-            margin-top: 5rem;
-            padding-top: 3rem;
-            border-top: 1px solid rgba(240,236,228,0.06);
+            display: flex; justify-content: center; gap: 4rem; margin-top: 5rem;
+            padding-top: 3rem; border-top: 1px solid rgba(240,236,228,0.05);
+            flex-wrap: wrap;
         }
-        .contact-info-label {
-            font-size: 0.65rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--gray-500);
-            margin-bottom: 0.4rem;
-        }
-        .contact-info-value {
-            font-family: var(--serif);
-            font-size: 1rem;
-            color: var(--cream);
-        }
+        .contact-info-label { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray-500); margin-bottom: 0.35rem; }
+        .contact-info-value { font-family: var(--serif); font-size: 0.95rem; color: var(--cream); }
         .contact-info-value a { color: var(--cream); text-decoration: none; transition: color 0.3s; }
         .contact-info-value a:hover { color: var(--gold); }
 
         /* ==================== FOOTER ==================== */
         .footer {
-            padding: 3rem 3.5rem;
-            border-top: 1px solid rgba(240,236,228,0.06);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 2.5rem 3.5rem;
+            border-top: 1px solid rgba(240,236,228,0.05);
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .footer-left {
-            font-family: var(--display);
-            font-size: 0.7rem;
-            letter-spacing: 0.15em;
-            color: var(--gray-500);
-        }
-        .footer-center {
-            font-family: var(--display);
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.4em;
-            color: var(--gray-700);
-        }
+        .footer-left { font-family: var(--display); font-size: 0.68rem; letter-spacing: 0.12em; color: var(--gray-500); }
+        .footer-center { font-family: var(--display); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.35em; color: var(--gray-700); }
         .footer-right { display: flex; gap: 2rem; }
         .footer-right a {
-            font-size: 0.7rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--gray-500);
-            text-decoration: none;
-            transition: color 0.3s;
+            font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--gray-500); text-decoration: none; transition: color 0.3s;
         }
         .footer-right a:hover { color: var(--gold); }
 
         /* ==================== RESPONSIVE ==================== */
         @media (max-width: 1024px) {
-            .intro { grid-template-columns: 1fr; gap: 4rem; padding: 8rem 2.5rem; }
-            .showcase { padding: 6rem 2.5rem; }
-            .showcase-grid { grid-template-columns: 1fr 1fr; }
-            .split { grid-template-columns: 1fr; }
-            .split-image { min-height: 50vh; }
-            .split-content { padding: 4rem 2.5rem; }
-            .cards-grid { grid-template-columns: 1fr; }
+            .philosophy-header { grid-template-columns: 1fr; gap: 2rem; }
+            .philosophy-grid { grid-template-columns: 1fr 1fr; }
+            .schedule-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .food { grid-template-columns: 1fr; }
+            .food-image { min-height: 40vh; }
+            .food-content { padding: 3.5rem 2.5rem; }
+            .membership-grid { grid-template-columns: 1fr; }
+            .spaces-grid { grid-template-columns: 1fr; }
             .photo-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
             .photo-grid-item { aspect-ratio: 4/3; }
             .photo-grid-item:nth-child(1) { grid-row: span 1; }
             .photo-grid-item:nth-child(4) { grid-column: span 1; }
-            .contact-info { flex-direction: column; gap: 2rem; }
+            .contact-info { flex-direction: column; gap: 1.5rem; }
         }
         @media (max-width: 768px) {
-            .nav { padding: 1.2rem 1.5rem; }
+            .nav { padding: 1.1rem 1.5rem; }
             .nav-links, .nav-cta { display: none; }
             .hero { padding: 0 1.5rem 3rem; }
             .hero-left { max-width: 100%; }
             .hero-right { display: none; }
-            .intro { padding: 6rem 1.5rem; }
-            .showcase { padding: 5rem 1.5rem; }
-            .showcase-grid { grid-template-columns: 1fr; }
-            .split-content { padding: 3rem 1.5rem; }
-            .big-text-section { padding: 8rem 1.5rem; }
-            .cards-section { padding: 5rem 1.5rem; }
-            .contact { padding: 8rem 1.5rem; }
-            .footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+            .philosophy { padding: 7rem 1.5rem; }
+            .philosophy-grid { grid-template-columns: 1fr; }
+            .faq-strip { padding: 3rem 1.5rem; flex-direction: column; gap: 2rem; }
+            .schedule { padding: 7rem 1.5rem; }
+            .big-text-section { padding: 7rem 1.5rem; }
+            .food-content { padding: 3rem 1.5rem; }
+            .food-cols { grid-template-columns: 1fr; }
+            .membership { padding: 7rem 1.5rem; }
+            .spaces { padding: 7rem 1.5rem; }
+            .contact { padding: 7rem 1.5rem; }
+            .footer { flex-direction: column; gap: 0.8rem; text-align: center; padding: 2rem 1.5rem; }
         }
-
-        /* ==================== GSAP HELPERS ==================== */
-        .gs-hidden { opacity: 0; transform: translateY(40px); }
     </style>
 </head>
 <body>
@@ -823,19 +498,20 @@
     <div class="loader" id="loader">
         <div class="loader-text"><span>GROSSMEISTER</span></div>
         <div class="loader-line" id="loaderLine"></div>
-        <div class="loader-counter" id="loaderCounter">0%</div>
+        <div class="loader-sub"><span>meets Market Power</span></div>
     </div>
 
     <!-- Nav -->
     <nav class="nav" id="mainNav">
         <a href="#" class="nav-logo">GROSSMEISTER</a>
         <ul class="nav-links">
-            <li><a href="#about">О клубе</a></li>
-            <li><a href="#experience">Возможности</a></li>
-            <li><a href="#programs">Программы</a></li>
+            <li><a href="#philosophy">Философия</a></li>
+            <li><a href="#schedule">Программа</a></li>
+            <li><a href="#food">Кухня</a></li>
             <li><a href="#membership">Членство</a></li>
+            <li><a href="#spaces">Пространства</a></li>
         </ul>
-        <a href="#contact" class="nav-cta">Записаться</a>
+        <a href="#contact" class="nav-cta">Стать членом</a>
     </nav>
 
     <!-- Hero -->
@@ -848,14 +524,15 @@
             <div class="hero-left">
                 <div class="hero-eyebrow">
                     <span class="hero-eyebrow-line"></span>
-                    <span>Премиальный шахматный клуб &middot; Москва</span>
+                    <span>Grossmeister House &times; Market Power Caf&eacute;</span>
                 </div>
                 <h1 class="hero-title">
-                    <span class="hero-title-line"><span>Где рождаются</span></span>
-                    <span class="hero-title-line"><span><em>великие</em> партии</span></span>
+                    <span class="hero-title-line"><span>Шахматы.</span></span>
+                    <span class="hero-title-line"><span><em>Инвестиции.</em></span></span>
+                    <span class="hero-title-line"><span>Сообщество.</span></span>
                 </h1>
                 <p class="hero-desc">
-                    <span>Закрытый шахматный клуб в Крылатском. Тренировки с гроссмейстерами, авторская кухня и сообщество ценителей интеллектуальной игры.</span>
+                    <span>Закрытый клуб для тех, кто любит думать. Лучшие шахматные партии, разговоры об экономике и инвестициях, авторская кухня — и всегда найдётся равный соперник.</span>
                 </p>
             </div>
             <div class="hero-right">
@@ -870,232 +547,288 @@
     <!-- Marquee -->
     <div class="marquee">
         <div class="marquee-inner">
+            <div class="marquee-item">Шахматы <span class="marquee-diamond"></span></div>
+            <div class="marquee-item">Инвестиции <span class="marquee-diamond"></span></div>
+            <div class="marquee-item">Экономика <span class="marquee-diamond"></span></div>
+            <div class="marquee-item">Нетворкинг <span class="marquee-diamond"></span></div>
             <div class="marquee-item">Стратегия <span class="marquee-diamond"></span></div>
             <div class="marquee-item">Интеллект <span class="marquee-diamond"></span></div>
             <div class="marquee-item">Мастерство <span class="marquee-diamond"></span></div>
-            <div class="marquee-item">Традиции <span class="marquee-diamond"></span></div>
-            <div class="marquee-item">Элегантность <span class="marquee-diamond"></span></div>
-            <div class="marquee-item">Гроссмейстер <span class="marquee-diamond"></span></div>
-            <div class="marquee-item">Совершенство <span class="marquee-diamond"></span></div>
+            <div class="marquee-item">Сообщество <span class="marquee-diamond"></span></div>
             <div class="marquee-item">Шахматы <span class="marquee-diamond"></span></div>
+            <div class="marquee-item">Инвестиции <span class="marquee-diamond"></span></div>
+            <div class="marquee-item">Экономика <span class="marquee-diamond"></span></div>
+            <div class="marquee-item">Нетворкинг <span class="marquee-diamond"></span></div>
             <div class="marquee-item">Стратегия <span class="marquee-diamond"></span></div>
             <div class="marquee-item">Интеллект <span class="marquee-diamond"></span></div>
             <div class="marquee-item">Мастерство <span class="marquee-diamond"></span></div>
-            <div class="marquee-item">Традиции <span class="marquee-diamond"></span></div>
-            <div class="marquee-item">Элегантность <span class="marquee-diamond"></span></div>
-            <div class="marquee-item">Гроссмейстер <span class="marquee-diamond"></span></div>
-            <div class="marquee-item">Совершенство <span class="marquee-diamond"></span></div>
-            <div class="marquee-item">Шахматы <span class="marquee-diamond"></span></div>
+            <div class="marquee-item">Сообщество <span class="marquee-diamond"></span></div>
         </div>
     </div>
 
-    <!-- Intro / About -->
-    <section class="intro" id="about">
-        <div class="intro-left">
-            <div class="section-num">( 01 )</div>
-            <h2 class="intro-title">Искусство <em>стратегической</em> мысли начинается здесь</h2>
-            <p class="intro-text">
-                GROSSMEISTER — закрытый шахматный клуб премиум-класса в Крылатском. Здесь традиции великой игры сочетаются с безупречным сервисом, изысканной кухней и атмосферой, где каждая деталь продумана до совершенства.
-            </p>
-            <p class="intro-text" style="margin-top: 1rem;">
-                Мы создали пространство, где интеллектуалы, предприниматели и ценители шахмат находят не только партнёров по игре, но и среду для вдохновения, нетворкинга и личного роста.
-            </p>
-            <div class="intro-stats">
-                <div>
-                    <div class="intro-stat-num">150+</div>
-                    <div class="intro-stat-label">Членов клуба</div>
-                </div>
-                <div>
-                    <div class="intro-stat-num">12</div>
-                    <div class="intro-stat-label">Гроссмейстеров</div>
-                </div>
-                <div>
-                    <div class="intro-stat-num">48</div>
-                    <div class="intro-stat-label">Турниров в год</div>
-                </div>
+    <!-- Philosophy -->
+    <section class="philosophy" id="philosophy">
+        <div class="section-num">( 01 ) Философия</div>
+        <div class="philosophy-header">
+            <h2 class="philosophy-title">Место, где <em>интеллект</em> становится образом жизни</h2>
+            <div class="philosophy-text">
+                Мы объединяем шахматы и инвестиции, потому что так нравится проводить время нашему основателю — и так нравится проводить время нашим членам. Это клуб для умных, успешных и амбициозных людей, где всегда модно и всегда интересно.
             </div>
         </div>
-        <div class="intro-right">
-            <div class="intro-image">
-                <img src="https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=800&q=80&auto=format" alt="Атмосфера клуба" loading="lazy">
-                <div class="intro-image-overlay"></div>
-                <div class="intro-image-tag">Осн. 2019, Москва</div>
+        <div class="philosophy-grid">
+            <div class="phil-card">
+                <div class="phil-card-icon">&#9818;</div>
+                <h3 class="phil-card-title">Шахматы</h3>
+                <p class="phil-card-text">Мы хотим играть в шахматы с людьми, равными нам по силам, в любое время. Наш клуб — лучший шахматный клуб в мире.</p>
             </div>
-        </div>
-    </section>
-
-    <!-- Showcase -->
-    <section class="showcase" id="experience">
-        <div class="section-num">( 02 )</div>
-        <h2 class="showcase-title">Больше чем <em>шахматы</em></h2>
-        <div class="showcase-grid">
-            <div class="showcase-card">
-                <div class="showcase-card-img">
-                    <img src="https://images.unsplash.com/photo-1580541832626-2a7131ee809f?w=600&q=80&auto=format" alt="Турниры FIDE" loading="lazy">
-                </div>
-                <div class="showcase-card-content">
-                    <div class="showcase-card-num">01</div>
-                    <h3 class="showcase-card-title">Турниры FIDE</h3>
-                    <p class="showcase-card-desc">Рейтинговые соревнования с международными арбитрами и призовым фондом для игроков всех уровней.</p>
-                </div>
+            <div class="phil-card">
+                <div class="phil-card-icon">&#8593;</div>
+                <h3 class="phil-card-title">Инвестиции</h3>
+                <p class="phil-card-text">Мы любим инвестиции и хотим их обсуждать. Лекции, дискуссии, обмен опытом — от хедж-фондов до личных стратегий.</p>
             </div>
-            <div class="showcase-card">
-                <div class="showcase-card-img">
-                    <img src="https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=600&q=80&auto=format" alt="Персональные тренировки" loading="lazy">
-                </div>
-                <div class="showcase-card-content">
-                    <div class="showcase-card-num">02</div>
-                    <h3 class="showcase-card-title">Тренировки с ГМ</h3>
-                    <p class="showcase-card-desc">Индивидуальные занятия с титулованными игроками. Программа обучения адаптирована под ваши цели.</p>
-                </div>
+            <div class="phil-card">
+                <div class="phil-card-icon">&#9734;</div>
+                <h3 class="phil-card-title">Экономика</h3>
+                <p class="phil-card-text">Мы любим экономику и хотим её обсуждать — включая историю экономики, макротренды и глобальные рынки.</p>
             </div>
-            <div class="showcase-card">
-                <div class="showcase-card-img">
-                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80&auto=format" alt="Авторская кухня" loading="lazy">
-                </div>
-                <div class="showcase-card-content">
-                    <div class="showcase-card-num">03</div>
-                    <h3 class="showcase-card-title">Авторская кухня</h3>
-                    <p class="showcase-card-desc">Блюда от шеф-повара и исключительная винная карта. Каждый визит — гастрономическое событие.</p>
-                </div>
+            <div class="phil-card">
+                <div class="phil-card-icon">&#9826;</div>
+                <h3 class="phil-card-title">Нетворкинг</h3>
+                <p class="phil-card-text">Лучшее место, чтобы познакомиться с умными и успешными людьми. IR-менеджеры корпораций, инвесторы, предприниматели.</p>
+            </div>
+            <div class="phil-card">
+                <div class="phil-card-icon">&#9835;</div>
+                <h3 class="phil-card-title">Атмосфера</h3>
+                <p class="phil-card-text">У нас должно быть модно и весело. Живая музыка, лекции по искусству, фотография — интеллектуальный досуг без границ.</p>
+            </div>
+            <div class="phil-card">
+                <div class="phil-card-icon">&#9823;</div>
+                <h3 class="phil-card-title">Свобода</h3>
+                <p class="phil-card-text">Можно не играть в шахматы. Можно не разбираться в инвестициях. А можно сыграть в шашки. Главное — быть собой.</p>
             </div>
         </div>
     </section>
 
-    <!-- Split: Programs -->
-    <section class="split" id="programs">
-        <div class="split-image">
-            <img src="https://images.unsplash.com/photo-1528819622765-d6bcf132f793?w=1000&q=80&auto=format" alt="Обучение шахматам" loading="lazy">
+    <!-- FAQ Strip -->
+    <div class="faq-strip">
+        <div class="faq-item">
+            <span class="faq-q">Можно ли не играть?</span>
+            <span class="faq-a">Разумеется. Клуб — это атмосфера, люди и разговоры.</span>
         </div>
-        <div class="split-content">
-            <div class="split-label">( 03 ) Программы обучения</div>
-            <h2 class="split-title">Учитесь у <em>лучших</em>,<br>играйте как мастер</h2>
-            <p class="split-text">
-                Наша методика сочетает классическую шахматную теорию с современным компьютерным анализом. Каждая программа выстроена под индивидуальный уровень и цели ученика.
-            </p>
-            <ul class="split-list">
-                <li>Индивидуальные занятия с гроссмейстерами</li>
-                <li>Групповые мастер-классы (до 8 человек)</li>
-                <li>Построение дебютного репертуара</li>
-                <li>Техника эндшпиля</li>
-                <li>Турнирная психология</li>
-                <li>Онлайн-тренировки с видеоанализом</li>
-            </ul>
-            <a href="#contact" class="btn-arrow">
-                Записаться на пробное занятие
-                <svg viewBox="0 0 16 16" fill="none"><path d="M1 8h14M9 2l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
+        <div class="faq-item">
+            <span class="faq-q">А сыграть в шашки?</span>
+            <span class="faq-a">Естественно.</span>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q">Обязательно разбираться в инвестициях?</span>
+            <span class="faq-a">Нет. Но здесь вы точно научитесь.</span>
+        </div>
+    </div>
+
+    <!-- Schedule -->
+    <section class="schedule" id="schedule">
+        <div class="section-num">( 02 ) Программа</div>
+        <h2 class="schedule-title">Каждый день — <em>событие</em></h2>
+        <div class="schedule-grid">
+            <div class="schedule-day">
+                <div class="schedule-block">
+                    <div class="schedule-time">10:00 — 14:00</div>
+                    <div>
+                        <div class="schedule-info-title">Утренние лекции</div>
+                        <div class="schedule-info-desc">История искусств, кружок фотографа, образовательные программы.</div>
+                    </div>
+                </div>
+                <div class="schedule-block">
+                    <div class="schedule-time">14:00 — 17:00</div>
+                    <div>
+                        <div class="schedule-info-title">Обучение шахматам</div>
+                        <div class="schedule-info-desc">Индивидуальные и групповые занятия. Автоматизированная система обучения с целью +100 рейтинга за год.</div>
+                    </div>
+                </div>
+                <div class="schedule-block">
+                    <div class="schedule-time">17:00 — 21:00</div>
+                    <div>
+                        <div class="schedule-info-title">Шахматные турниры</div>
+                        <div class="schedule-info-desc">Ежедневные турниры. В клубные дни — лекции по инвестициям от ведущих управляющих.</div>
+                    </div>
+                </div>
+                <div class="schedule-block">
+                    <div class="schedule-time">21:00+</div>
+                    <div>
+                        <div class="schedule-info-title">Night club</div>
+                        <div class="schedule-info-desc">Живая музыка, бар, свободное общение. Атмосфера, где модно и весело.</div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="schedule-side-card">
+                    <h3 class="schedule-side-title">Выездные мероприятия</h3>
+                    <p class="schedule-side-text">Обучение шахматам и аналитические сессии (analytic boost) в формате выездных ретритов. Турция, Сочи и другие направления.</p>
+                    <span class="schedule-side-badge">Retreat format</span>
+                </div>
+                <div class="schedule-side-card">
+                    <h3 class="schedule-side-title">Инвестиционные клубные дни</h3>
+                    <p class="schedule-side-text">Приглашённые спикеры, разборы стратегий, обсуждение макроэкономики и рынков. Формат, где шахматы встречаются с финансами.</p>
+                    <span class="schedule-side-badge">Investment talks</span>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Big Quote -->
     <section class="big-text-section">
-        <div class="big-text">&laquo;Шахматы — это <em>гимнастика</em> для ума&raquo;</div>
-        <p class="big-text-sub">
-            В GROSSMEISTER мы верим: каждая партия — это урок, каждый ход — решение, и в каждом игроке скрыт нераскрытый потенциал.
-        </p>
+        <div class="big-text">Лучший шахматный клуб в мире — с <em>лучшими</em> людьми внутри</div>
     </section>
 
     <!-- Photo Grid -->
     <div class="photo-grid">
         <div class="photo-grid-item">
-            <img src="https://images.unsplash.com/photo-1604948501466-4e9c339b9c24?w=800&q=80&auto=format" alt="Игровой зал" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1604948501466-4e9c339b9c24?w=800&q=80&auto=format" alt="Атмосфера" loading="lazy">
             <span class="photo-grid-label">Игровой зал</span>
         </div>
         <div class="photo-grid-item">
-            <img src="https://images.unsplash.com/photo-1560174038-da43ac74f01b?w=600&q=80&auto=format" alt="Шахматные фигуры" loading="lazy">
-            <span class="photo-grid-label">Коллекционные фигуры</span>
+            <img src="https://images.unsplash.com/photo-1560174038-da43ac74f01b?w=600&q=80&auto=format" alt="Шахматы" loading="lazy">
+            <span class="photo-grid-label">Всегда есть соперник</span>
         </div>
         <div class="photo-grid-item">
             <img src="https://images.unsplash.com/photo-1495195129352-aeb325a55b65?w=600&q=80&auto=format" alt="Лаунж" loading="lazy">
-            <span class="photo-grid-label">Клубный лаунж</span>
+            <span class="photo-grid-label">Вечерний клуб</span>
         </div>
         <div class="photo-grid-item">
             <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=1000&q=80&auto=format" alt="Ресторан" loading="lazy">
-            <span class="photo-grid-label">Ресторан</span>
+            <span class="photo-grid-label">Кафе и бар</span>
         </div>
         <div class="photo-grid-item">
-            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80&auto=format" alt="Винная карта" loading="lazy">
-            <span class="photo-grid-label">Вино и напитки</span>
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80&auto=format" alt="Бар" loading="lazy">
+            <span class="photo-grid-label">Живая музыка</span>
         </div>
     </div>
 
-    <!-- Membership -->
-    <section class="cards-section" id="membership">
-        <div class="cards-header">
-            <div>
-                <div class="section-num">( 04 ) Членство</div>
-                <h2 class="cards-title">Выберите свой <em>уровень</em></h2>
+    <!-- Food -->
+    <section class="food" id="food">
+        <div class="food-image">
+            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=80&auto=format" alt="Кухня" loading="lazy">
+        </div>
+        <div class="food-content">
+            <div class="food-label">( 03 ) Кухня и бар</div>
+            <h2 class="food-title">Всё, что делаем сами — <em>лучшего</em> качества</h2>
+            <p class="food-text">
+                Собственная кухня клуба — кофе, чай, десерты, мороженое, финики, лёгкие салаты. Всё высочайшего качества, вне зависимости от цены. Плюс фрукты, алкоголь и доставка из лучших окрестных ресторанов.
+            </p>
+            <div class="food-cols">
+                <div>
+                    <div class="food-col-title">Готовим сами</div>
+                    <ul class="food-col-list">
+                        <li>Авторский кофе</li>
+                        <li>Чайная карта</li>
+                        <li>Финики отборные</li>
+                        <li>Мороженое</li>
+                        <li>Десерты</li>
+                        <li>Лёгкие салаты</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="food-col-title">Дополнительно</div>
+                    <ul class="food-col-list">
+                        <li>Фрукты</li>
+                        <li>Алкоголь и вино</li>
+                        <li>Доставка из ресторанов</li>
+                        <li>Кальян и сигары</li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="cards-grid">
-            <div class="price-card">
-                <div class="price-card-tier">Дебют</div>
-                <div class="price-card-name">Начало</div>
-                <div class="price-card-price">25 000 &#8381;</div>
-                <div class="price-card-period">в месяц</div>
-                <ul class="price-card-features">
-                    <li>Доступ в игровой зал</li>
-                    <li>4 групповых занятия</li>
-                    <li>Участие в клубных турнирах</li>
-                    <li>Скидка 10% в ресторане</li>
-                    <li>Мобильное приложение</li>
+    </section>
+
+    <!-- Membership -->
+    <section class="membership" id="membership">
+        <div class="section-num">( 04 ) Членство</div>
+        <h2 class="membership-title">Станьте частью <em>клуба</em></h2>
+        <p class="membership-sub">Два формата участия: годовая карта для постоянных членов или ежемесячная подписка для знакомства с клубом.</p>
+        <div class="membership-grid">
+            <div class="m-card featured">
+                <div class="m-card-badge">Основной</div>
+                <div class="m-card-tier">Годовая карта</div>
+                <div class="m-card-name">Членская карта</div>
+                <div class="m-card-price">200 000 &#8381;</div>
+                <div class="m-card-period">в год</div>
+                <ul class="m-card-features">
+                    <li>Полный доступ ко всем площадкам</li>
+                    <li>Шахматные турниры и тренировки</li>
+                    <li>Инвестиционные лекции и клубные дни</li>
+                    <li>Вечерняя программа и live-музыка</li>
+                    <li>10 гостевых визитов для друзей</li>
+                    <li>Выездные мероприятия</li>
                 </ul>
-                <a href="#contact" class="price-card-btn">Выбрать</a>
+                <a href="#contact" class="m-card-btn">Оставить заявку</a>
             </div>
-            <div class="price-card featured">
-                <div class="price-card-badge">Популярный</div>
-                <div class="price-card-tier">Миттельшпиль</div>
-                <div class="price-card-name">Мастер</div>
-                <div class="price-card-price">55 000 &#8381;</div>
-                <div class="price-card-period">в месяц</div>
-                <ul class="price-card-features">
-                    <li>Всё из тарифа Дебют</li>
-                    <li>8 индивидуальных занятий с ГМ</li>
-                    <li>Приватные кабинеты для игры</li>
-                    <li>Скидка 25% в ресторане</li>
-                    <li>Закрытые мероприятия</li>
-                    <li>Персональный менеджер</li>
+            <div class="m-card">
+                <div class="m-card-tier">Подписка</div>
+                <div class="m-card-name">Ежемесячная</div>
+                <div class="m-card-price">20 000 &#8381;</div>
+                <div class="m-card-period">в месяц &middot; первый месяц бесплатно</div>
+                <ul class="m-card-features">
+                    <li>Доступ к площадке</li>
+                    <li>Шахматные турниры</li>
+                    <li>Посещение лекций</li>
+                    <li>Вечерняя программа</li>
+                    <li>Возможность заморозки</li>
                 </ul>
-                <a href="#contact" class="price-card-btn">Выбрать</a>
+                <a href="#contact" class="m-card-btn">Попробовать</a>
             </div>
-            <div class="price-card">
-                <div class="price-card-tier">Эндшпиль</div>
-                <div class="price-card-name">Гроссмейстер</div>
-                <div class="price-card-price">120 000 &#8381;</div>
-                <div class="price-card-period">в месяц</div>
-                <ul class="price-card-features">
-                    <li>Всё из тарифа Мастер</li>
-                    <li>Безлимитные тренировки с ГМ</li>
-                    <li>Бесплатное питание в ресторане</li>
-                    <li>VIP-ложа на турнирах</li>
-                    <li>Гостевые визиты (до 3 чел.)</li>
-                    <li>Консьерж-сервис 24/7</li>
-                </ul>
-                <a href="#contact" class="price-card-btn">Выбрать</a>
+        </div>
+        <div class="membership-note">
+            <strong>Специальные условия:</strong> гроссмейстерам — бесплатное членство. IR-менеджерам корпораций — бесплатное членство. Девушкам, желающим научиться играть в шахматы — скидка. Перспективным молодым людям — по результатам вступительного экзамена.
+        </div>
+    </section>
+
+    <!-- Spaces -->
+    <section class="spaces" id="spaces">
+        <div class="section-num">( 05 ) Пространства</div>
+        <h2 class="spaces-title">Два клуба — одна <em>философия</em></h2>
+        <div class="spaces-grid">
+            <div class="space-card">
+                <div class="space-card-img">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80&auto=format" alt="Малевич" loading="lazy">
+                </div>
+                <div class="space-card-content">
+                    <h3 class="space-card-name">Малевич</h3>
+                    <p class="space-card-desc">Премиальная отделка, камерная атмосфера. Флагманская площадка клуба с полным спектром программ.</p>
+                    <span class="space-card-tag">Flagship</span>
+                </div>
+            </div>
+            <div class="space-card">
+                <div class="space-card-img">
+                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80&auto=format" alt="Петровский" loading="lazy">
+                </div>
+                <div class="space-card-content">
+                    <h3 class="space-card-name">Петровский</h3>
+                    <p class="space-card-desc">Лофт-стиль, высокий трафик. Площадка, которая кратно увеличивает поток новых членов клуба.</p>
+                    <span class="space-card-tag">Loft style</span>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Contact -->
     <section class="contact" id="contact">
-        <div class="contact-label">( 05 ) Контакты</div>
+        <div class="contact-label">( 06 ) Контакты</div>
         <h2 class="contact-title">Готовы к<br><em>первому ходу?</em></h2>
         <p class="contact-desc">
-            Запишитесь на приватную экскурсию по клубу. Оцените атмосферу, познакомьтесь с командой и начните свою игру.
+            Оставьте заявку на вступление в клуб или запишитесь на пробный визит. Мы свяжемся с вами лично.
         </p>
         <a href="tel:+74951234567" class="btn-arrow">
-            Записаться на визит
+            Связаться с нами
             <svg viewBox="0 0 16 16" fill="none"><path d="M1 8h14M9 2l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
         <div class="contact-info">
             <div class="contact-info-item">
-                <div class="contact-info-label">Адрес</div>
-                <div class="contact-info-value">Осенний бульвар 12к1, Крылатское, Москва</div>
+                <div class="contact-info-label">Площадка Малевич</div>
+                <div class="contact-info-value">Москва</div>
             </div>
             <div class="contact-info-item">
-                <div class="contact-info-label">Телефон</div>
-                <div class="contact-info-value"><a href="tel:+74951234567">+7 (495) 123-45-67</a></div>
+                <div class="contact-info-label">Площадка Петровский</div>
+                <div class="contact-info-value">Москва</div>
             </div>
             <div class="contact-info-item">
                 <div class="contact-info-label">Email</div>
@@ -1103,24 +836,23 @@
             </div>
             <div class="contact-info-item">
                 <div class="contact-info-label">Часы работы</div>
-                <div class="contact-info-value">Ежедневно 10:00 — 23:00</div>
+                <div class="contact-info-value">Ежедневно 10:00 — late</div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-left">&copy; 2024 GROSSMEISTER</div>
+        <div class="footer-left">&copy; 2024 Grossmeister House &times; Market Power</div>
         <div class="footer-center">GROSSMEISTER</div>
         <div class="footer-right">
             <a href="#">Telegram</a>
-            <a href="#">VK</a>
-            <a href="#">YouTube</a>
+            <a href="#">Instagram</a>
         </div>
     </footer>
 
     <script>
-    // ==================== CURSOR (light, no mix-blend-mode) ====================
+    // ==================== CURSOR ====================
     const cursor = document.getElementById('cursor');
     let cx = 0, cy = 0, dx = 0, dy = 0;
     document.addEventListener('mousemove', (e) => { cx = e.clientX; cy = e.clientY; });
@@ -1130,14 +862,14 @@
         cursor.style.transform = `translate(${dx - 8}px, ${dy - 8}px)`;
         requestAnimationFrame(moveCursor);
     })();
-    document.querySelectorAll('a, button, [data-hover]').forEach(el => {
+    document.querySelectorAll('a, button').forEach(el => {
         el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
         el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
     });
 
     // ==================== LOADER ====================
     const loader = document.getElementById('loader');
-    const loaderTl = gsap.timeline({
+    const tl = gsap.timeline({
         onComplete() {
             gsap.to(loader, { yPercent: -100, duration: 0.7, ease: 'power3.inOut', onComplete() {
                 loader.style.display = 'none';
@@ -1145,98 +877,110 @@
             }});
         }
     });
-    let count = { v: 0 };
-    loaderTl
-        .from('.loader-text span', { yPercent: 110, duration: 0.7, ease: 'power3.out' })
-        .to('#loaderLine', { width: 120, duration: 1.3, ease: 'power2.inOut' }, 0.2)
-        .to(count, { v: 100, duration: 1.3, ease: 'power2.inOut', onUpdate() {
-            document.getElementById('loaderCounter').textContent = Math.round(count.v) + '%';
-        }}, 0.2);
+    tl.from('.loader-text span', { yPercent: 110, duration: 0.6, ease: 'power3.out' })
+      .to('#loaderLine', { width: 100, duration: 1.2, ease: 'power2.inOut' }, 0.15)
+      .from('.loader-sub span', { yPercent: 100, opacity: 0, duration: 0.5, ease: 'power3.out' }, 0.5);
 
     // ==================== HERO ====================
     function runHero() {
-        gsap.from('#heroBg', { scale: 1.15, duration: 1.5, ease: 'power2.out' });
-        gsap.from('.hero-eyebrow', { opacity: 0, y: 16, duration: 0.6, delay: 0.2 });
-        gsap.from('.hero-title-line span', { yPercent: 110, duration: 0.9, ease: 'power3.out', stagger: 0.1, delay: 0.3 });
-        gsap.from('.hero-desc span', { opacity: 0, y: 16, duration: 0.7, delay: 0.7 });
-        gsap.from('.hero-right', { opacity: 0, duration: 0.7, delay: 0.9 });
+        gsap.from('#heroBg', { scale: 1.12, duration: 1.4, ease: 'power2.out' });
+        gsap.from('.hero-eyebrow', { opacity: 0, y: 14, duration: 0.5, delay: 0.2 });
+        gsap.from('.hero-title-line span', { yPercent: 110, duration: 0.85, ease: 'power3.out', stagger: 0.08, delay: 0.25 });
+        gsap.from('.hero-desc span', { opacity: 0, y: 14, duration: 0.6, delay: 0.65 });
+        gsap.from('.hero-right', { opacity: 0, duration: 0.6, delay: 0.8 });
     }
 
-    // ==================== NAV SCROLL ====================
-    const nav = document.getElementById('mainNav');
+    // ==================== NAV ====================
     window.addEventListener('scroll', () => {
-        nav.classList.toggle('scrolled', window.scrollY > 60);
+        document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50);
     }, { passive: true });
 
-    // ==================== SCROLL REVEALS (GSAP ScrollTrigger) ====================
+    // ==================== REVEALS ====================
     gsap.registerPlugin(ScrollTrigger);
 
-    // Intro
-    gsap.from('.intro-left > *', {
-        y: 50, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out',
-        scrollTrigger: { trigger: '.intro', start: 'top 72%' }
+    // Philosophy
+    gsap.from('.philosophy .section-num, .philosophy-header > *', {
+        y: 40, opacity: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.philosophy', start: 'top 72%' }
     });
-    gsap.from('.intro-image', {
-        clipPath: 'inset(0 100% 0 0)', duration: 1, ease: 'power3.inOut',
-        scrollTrigger: { trigger: '.intro-image', start: 'top 75%' }
-    });
-    gsap.from('.intro-image img', {
-        scale: 1.2, duration: 1.3, ease: 'power2.out',
-        scrollTrigger: { trigger: '.intro-image', start: 'top 75%' }
+    gsap.from('.phil-card', {
+        y: 40, opacity: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out',
+        scrollTrigger: { trigger: '.philosophy-grid', start: 'top 75%' }
     });
 
-    // Showcase cards
-    gsap.from('.showcase-card', {
-        y: 50, opacity: 0, duration: 0.7, stagger: 0.15, ease: 'power3.out',
-        scrollTrigger: { trigger: '.showcase-grid', start: 'top 72%' }
+    // FAQ
+    gsap.from('.faq-item', {
+        y: 20, opacity: 0, duration: 0.5, stagger: 0.1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.faq-strip', start: 'top 80%' }
     });
 
-    // Split
-    gsap.from('.split-image img', {
-        scale: 1.12, duration: 1.3, ease: 'power2.out',
-        scrollTrigger: { trigger: '.split', start: 'top 65%' }
+    // Schedule
+    gsap.from('.schedule .section-num, .schedule-title', {
+        y: 40, opacity: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.schedule', start: 'top 72%' }
     });
-    gsap.from('.split-content > *', {
-        y: 35, opacity: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out',
-        scrollTrigger: { trigger: '.split-content', start: 'top 70%' }
+    gsap.from('.schedule-block', {
+        y: 30, opacity: 0, duration: 0.5, stagger: 0.08, ease: 'power3.out',
+        scrollTrigger: { trigger: '.schedule-day', start: 'top 72%' }
+    });
+    gsap.from('.schedule-side-card', {
+        y: 40, opacity: 0, duration: 0.6, stagger: 0.12, ease: 'power3.out',
+        scrollTrigger: { trigger: '.schedule-side-card', start: 'top 75%' }
     });
 
     // Big text
     gsap.from('.big-text', {
-        y: 60, opacity: 0, duration: 1, ease: 'power3.out',
+        y: 50, opacity: 0, duration: 0.9, ease: 'power3.out',
         scrollTrigger: { trigger: '.big-text-section', start: 'top 65%' }
-    });
-    gsap.from('.big-text-sub', {
-        y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
-        scrollTrigger: { trigger: '.big-text-section', start: 'top 55%' }
     });
 
     // Photo grid
     gsap.from('.photo-grid-item', {
-        y: 40, opacity: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out',
+        y: 35, opacity: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out',
         scrollTrigger: { trigger: '.photo-grid', start: 'top 72%' }
     });
 
-    // Price cards
-    gsap.from('.price-card', {
-        y: 50, opacity: 0, duration: 0.7, stagger: 0.12, ease: 'power3.out',
-        scrollTrigger: { trigger: '.cards-grid', start: 'top 70%' }
+    // Food
+    gsap.from('.food-image img', {
+        scale: 1.1, duration: 1.2, ease: 'power2.out',
+        scrollTrigger: { trigger: '.food', start: 'top 65%' }
+    });
+    gsap.from('.food-content > *', {
+        y: 30, opacity: 0, duration: 0.6, stagger: 0.07, ease: 'power3.out',
+        scrollTrigger: { trigger: '.food-content', start: 'top 70%' }
+    });
+
+    // Membership
+    gsap.from('.membership .section-num, .membership-title, .membership-sub', {
+        y: 35, opacity: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out',
+        scrollTrigger: { trigger: '.membership', start: 'top 72%' }
+    });
+    gsap.from('.m-card', {
+        y: 40, opacity: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.membership-grid', start: 'top 72%' }
+    });
+
+    // Spaces
+    gsap.from('.spaces .section-num, .spaces-title', {
+        y: 35, opacity: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out',
+        scrollTrigger: { trigger: '.spaces', start: 'top 72%' }
+    });
+    gsap.from('.space-card', {
+        y: 40, opacity: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.spaces-grid', start: 'top 72%' }
     });
 
     // Contact
     gsap.from('.contact > *', {
-        y: 40, opacity: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out',
+        y: 35, opacity: 0, duration: 0.6, stagger: 0.07, ease: 'power3.out',
         scrollTrigger: { trigger: '.contact', start: 'top 65%' }
     });
 
-    // ==================== SMOOTH NAV LINKS ====================
+    // ==================== SMOOTH NAV ====================
     document.querySelectorAll('a[href^="#"]').forEach(a => {
         a.addEventListener('click', (e) => {
             const target = document.querySelector(a.getAttribute('href'));
-            if (target) {
-                e.preventDefault();
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
         });
     });
     </script>
